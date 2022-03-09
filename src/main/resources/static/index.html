@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+
+<head>
+    <title>Blueprints</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+          href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/apimock.js"></script>
+    <script src="js/app.js"></script>
+
+</head>
+<body>
+    <H1 style="margin-left:2rem">Prueba</H1>
+    <label style="margin-left:2rem">Author</label>
+    <input id = "AuthorInput"style = "margin-left:2rem" name="Author" type="text"></input>
+    <button style = "margin-left:2rem" id="GetBlueprintsButton" onclick="Blueprint.actualizarPlanos()">GetbluePrints</button>
+    <br><br><br>
+    <label style = "margin-left:2rem">Author</label>
+    <br><br><br>
+    <table style = "width:30%;margin-left:2rem">
+        <tr>
+            <thead>
+                <th text-align="center">BluePrint name</th>
+                <th text-align="center">Number of points</th>
+                <th text-align="center">Open</th>
+                <th></th>
+            </thead>
+        </tr>
+    </table>
+    <br><br>
+    <label style = "margin-left:2rem" id="blueprintsPointsLabel">Total user points</label><label style = "margin-left:2rem" id="totalPoints"></label>
+    <br>
+    <canvas id="myCanvas" width="300" height="300" style="margin-top:-15rem  ;margin-left:70rem; border:1px solid rgb(7, 0, 41);"></canvas>
+</body>
+</html>
