@@ -48,8 +48,33 @@
     ```
     src/main/resources/static
     ```
+ #### Ordenamiento de carpetas de recursos estáticos 
+![](img/CARPETAS.png)
 
-4. Cree, en el directorio anterior, la página index.html, sólo con lo básico: título, campo para la captura del autor, botón de 'Get blueprints', campo <div> donde se mostrará el nombre del autor seleccionado, [la tabla HTML](https://www.w3schools.com/html/html_tables.asp) donde se mostrará el listado de planos (con sólo los encabezados), y un campo <div> donde se mostrará el total de puntos de los planos del autor. Recuerde asociarle identificadores a dichos componentes para facilitar su búsqueda mediante selectores.
+4. Cree, en el directorio anterior, la página index.html, sólo con lo básico: título, campo para la captura del autor, botón de 'Get blueprints', campo 
+ ```html
+    <label style="margin-left:2rem">Author</label>
+    <input id = "AuthorInput"style = "margin-left:2rem" name="Author" type="text"></input>
+    <button style = "margin-left:2rem" id="GetBlueprintsButton" onclick="Blueprint.actualizarPlanos()">GetbluePrints</button>
+    <br><br><br>
+```
+donde se mostrará el nombre del autor seleccionado, [la tabla HTML](https://www.w3schools.com/html/html_tables.asp) donde se mostrará el listado de planos (con sólo los encabezados), y un campo
+   ```html
+    <table style = "width:30%;margin-left:2rem">
+        <tr>
+            <thead>
+                <th text-align="center">BluePrint name</th>
+                <th text-align="center">Number of points</th>
+                <th text-align="center">Open</th>
+                <th></th>
+            </thead>
+        </tr>
+    </table>
+```    
+donde se mostrará el total de puntos de los planos del autor. Recuerde asociarle identificadores a dichos componentes para facilitar su búsqueda mediante selectores.
+  ```html
+   <label style = "margin-left:2rem" id="blueprintsPointsLabel">Total user points</label><label style = "margin-left:2rem" id="totalPoints"></label>
+```
 
 5. En el elemento \<head\> de la página, agregue las referencia a las librerías de jQuery, Bootstrap y a la hoja de estilos de Bootstrap. 
     ```html
