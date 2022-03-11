@@ -1,4 +1,5 @@
 #### Escuela Colombiana de Ingeniería
+#### Integrantes: Diego Alejandro González - Cristian Andrés Castellanos
 #### Procesos de desarrollo de software - PDSW
 #### Construción de un cliente 'grueso' con un API REST, HTML5, Javascript y CSS3. Parte II.
 
@@ -6,9 +7,26 @@
 
 ![](img/mock2.png)
 
-1. Agregue al canvas de la página un manejador de eventos que permita capturar los 'clicks' realizados, bien sea a través del mouse, o a través de una pantalla táctil. Para esto, tenga en cuenta [este ejemplo de uso de los eventos de tipo 'PointerEvent'](https://mobiforge.com/design-development/html5-pointer-events-api-combining-touch-mouse-and-pen) (aún no soportado por todos los navegadores) para este fin. Recuerde que a diferencia del ejemplo anterior (donde el código JS está incrustado en la vista), se espera tener la inicialización de los manejadores de eventos correctamente modularizado, tal [como se muestra en este codepen](https://codepen.io/hcadavid/pen/BwWbrw).
+### 1. Agregue al canvas de la página un manejador de eventos que permita capturar los 'clicks' realizados, bien sea a través del mouse, o a través de una pantalla táctil. Para esto, tenga en cuenta [este ejemplo de uso de los eventos de tipo 'PointerEvent'](https://mobiforge.com/design-development/html5-pointer-events-api-combining-touch-mouse-and-pen) (aún no soportado por todos los navegadores) para este fin. Recuerde que a diferencia del ejemplo anterior (donde el código JS está incrustado en la vista), se espera tener la inicialización de los manejadores de eventos correctamente modularizado, tal [como se muestra en este codepen](https://codepen.io/hcadavid/pen/BwWbrw).
+```javascript
+init:function(){
+            //SE VUELVE A PEDIR LAS VARIABLES DE CANVAS PARA ACTUALIZACION DE EVENTO
+            canvas = $("#myCanvas")[0];
+            ctx = canvas.getContext("2d");
+            console.info("Inicializando elementos...");
+            //REVISION DE EVENTO DE POINTERDOWN
+            if(window.PointerEvent){
+                canvas.addEventListener("pointerdown", function(event){
+                    alert('pointerdown at '+event.pageX+','+event.pageY);
+                });
+            }  
+        }
+    
+```
+Primero se crea una función pública donde se pida el canvas (Esto para que se vaya actualizando la información del método a medida que pasan los eventos). Luego de esto se tiene en cuenta el evento pointerEvent, este se activa cuando se pulsa el botón del ratón o en su defecto se toca en una pantalla táctil.
 
-2. Agregue lo que haga falta en sus módulos para que cuando se capturen nuevos puntos en el canvas abierto (si no se ha seleccionado un canvas NO se debe hacer nada):
+
+### 2. Agregue lo que haga falta en sus módulos para que cuando se capturen nuevos puntos en el canvas abierto (si no se ha seleccionado un canvas NO se debe hacer nada):
 	1. Se agregue el punto al final de la secuencia de puntos del canvas actual (sólo en la memoria de la aplicación, AÚN NO EN EL API!).
 	2. Se repinte el dibujo.
 
