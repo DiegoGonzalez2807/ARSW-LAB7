@@ -9,18 +9,20 @@ Blueprint = (function(){
     var bp; // BluePrint a mostrar, conformado por nombre y número de puntos
     var Point;
     var canvas;
-    var canvasM;
-    var ctx;
 
+    /**
+     * Funcion callback. Se necesita como parametro para usar las funciones de apimock
+     * @param {Array} list 
+     */
     var fun=function(list){
         blueprints = list;
         console.log(blueprints)
     }
 
-    function prueba(){alert("Se supone que entra")}
 
     /**
-     * Actualiza el total de puntos de los planos.
+     * Funcion generada para actualizar el puntaje que se muestra en el HTMl de acuerdo
+     * a la sumatoria de los puntos de todos los planos del autor
      */
     function actualizarTotalUPoints(){
         let points = 0;
@@ -33,24 +35,27 @@ Blueprint = (function(){
         
     }
 
+    /**
+     * Funcion generada para hacer la sumatoria entre dos valores
+     * @param {number} total 
+     * @param {number} sum 
+     * @returns 
+     */
     function getSum(total,sum){
         return total + sum;
     }
 
-    
-    function dibujarPlano(){
-
-    }
 
     /**
-     * Cambia el autor de un plano.
+     * Funcion generada para cambiar el nombre del autor al valor que defina
+     * el usuario
      * @param {Blueprint} blueprint Plano al cual se actualiza el autor
      * @param {String} newAuthor Nuevo autor del plano.
      */
      cambiarNombreAutor = function(bluePrint,newAuthor){}
 
      /**
-      * Actualiza los planos a mostrar segun el autor dado.
+      * Funcion generada para actualizar los planos a mostrar segun el autor dado.
       * @param {String} author Autor a mostrar sus planos.
       */
     function actualizarPlanos(){
@@ -75,6 +80,13 @@ Blueprint = (function(){
                 
         }
     
+    /**
+     * Funcion generada para que a partir de un canvas se pueda dibujar la imagen que 
+     * conforma todos los puntos dados en cada plano. Para obtener los puntos
+     * se hace uso de la funcion "getBlueprintsByNameAndAuthor", donde nos da la informacion
+     * especifica de el plano
+     * @param {int} id 
+     */
     function dibujarPlano(id){
         var ID = id["id"].substring(0,id["id"].length -1)
         canvasM = $("#myCanvas");
@@ -88,13 +100,12 @@ Blueprint = (function(){
             ctx.lineTo(bps.points[i]["x"],bps.points[i]["y"]);
         }
         ctx.stroke();
-
     }
     
-
-
+    /**
+     * Volviendo publicas las funciones necesarias
+     */
     return{
-        prueba : prueba,
         actualizarPlanos : actualizarPlanos,
         dibujarPlano:dibujarPlano,
         init:function(){
