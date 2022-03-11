@@ -9,6 +9,8 @@ Blueprint = (function(){
     var bp; // BluePrint a mostrar, conformado por nombre y número de puntos
     var Point;
     var canvas;
+    var canvasM;
+    var ctx;
 
     var fun=function(list){
         blueprints = list;
@@ -16,7 +18,6 @@ Blueprint = (function(){
     }
 
     function prueba(){alert("Se supone que entra")}
-
 
     /**
      * Actualiza el total de puntos de los planos.
@@ -76,9 +77,9 @@ Blueprint = (function(){
     
     function dibujarPlano(id){
         var ID = id["id"].substring(0,id["id"].length -1)
-        var canvasM = $("#myCanvas");
+        canvasM = $("#myCanvas");
         canvas = $("#myCanvas")[0];
-        var ctx = canvas.getContext("2d");
+        ctx = canvas.getContext("2d");
         canvas.width=canvas.width;
         apimock.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
         var bps = blueprints;
@@ -95,8 +96,20 @@ Blueprint = (function(){
     return{
         prueba : prueba,
         actualizarPlanos : actualizarPlanos,
-        dibujarPlano:dibujarPlano
-    }
+        dibujarPlano:dibujarPlano,
+        init:function(){
+            //SE VUELVE A PEDIR LAS VARIABLES DE CANVAS PARA ACTUALIZACION DE EVENTO
+            canvas = $("#myCanvas")[0];
+            ctx = canvas.getContext("2d");
+            console.info("Inicializando elementos...");
+            //REVISION DE EVENTO DE POINTERDOWN
+            if(window.PointerEvent){
+                canvas.addEventListener("pointerdown", function(event){
+                    alert('pointerdown at '+event.pageX+','+event.pageY);
+                });
+            }  
+        }
+    };
 
 })();
 Blueprint;
