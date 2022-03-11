@@ -3,20 +3,22 @@
 Blueprint = (function(){
 
     var Author = $("#AuthorInput").val();
+    var AuthorNew;
     var blueprints;
     var UserPoints;
     var planoM;
     var bp; // BluePrint a mostrar, conformado por nombre y número de puntos
-    var Point;
     var canvas;
-
+    var canvasM;
+    var ctx;
+    var ID;
     /**
      * Funcion callback. Se necesita como parametro para usar las funciones de apimock
      * @param {Array} list 
      */
     var fun=function(list){
         blueprints = list;
-        console.log(blueprints)
+       // console.log(blueprints)
     }
 
 
@@ -30,7 +32,7 @@ Blueprint = (function(){
             return plano.puntos;
         })
         points = pointsM.reduce(getSum,0);
-        console.log(points);
+       // console.log(points);
         UserPoints = $("#totalPoints").html(points);
         
     }
@@ -59,15 +61,15 @@ Blueprint = (function(){
       * @param {String} author Autor a mostrar sus planos.
       */
     function actualizarPlanos(){
-            console.log( $("#AuthorInput").val());
+            //console.log( $("#AuthorInput").val());
             apimock.getBlueprintsByAuthor($("#AuthorInput").val(),fun);
             var bps = blueprints;
-            console.log(bps);
+            //console.log(bps);
             var bps2 = bps.map(function(bp){
                 var plano = {nombre:bp.name, puntos: bp.points.length};
                 return plano;
             }); 
-            console.log(bps2);
+            //console.log(bps2);
             planoM = bps2;
             $("table tbody").empty();
             var BlueprintTable = bps2.map(function(plano){        
@@ -75,7 +77,7 @@ Blueprint = (function(){
                 $("table tbody").append(columna);
                 return columna;
             });
-            console.log(BlueprintTable);
+            //console.log(BlueprintTable);
             actualizarTotalUPoints();
                 
         }
@@ -88,7 +90,8 @@ Blueprint = (function(){
      * @param {int} id 
      */
     function dibujarPlano(id){
-        var ID = id["id"].substring(0,id["id"].length -1)
+        AuthorNew= $("#AuthorInput").val();
+        ID = id["id"].substring(0,id["id"].length -1)
         canvasM = $("#myCanvas");
         canvas = $("#myCanvas")[0];
         ctx = canvas.getContext("2d");
@@ -101,7 +104,28 @@ Blueprint = (function(){
         }
         ctx.stroke();
     }
-    
+
+    function repaint(ID,newPoint){
+        canvas = $("#myCanvas")[0];
+        ctx = canvas.getContext("2d");
+        //SE PIDE EL PLANO
+        apimock.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
+        var bps= blueprints;
+        //EN CASO QUE SEA LA PRIMER VEZ
+        if(lastPoint == null){
+        var lastPoint = bps.points[bps.points.length-1];
+        }
+        console.log("ULTIMOS PUNTOS")
+        console.log(lastPoint["x"]);
+        console.log(lastPoint["y"]);
+        console.log("NUEVOS PUNTOS")
+        console.log(newPoint["x"]);
+        console.log(newPoint["y"]);
+        ctx.moveTo(lastPoint["x"],lastPoint["y"]);
+        ctx.lineTo(newPoint["x"],newPoint["y"]); 
+        ctx.stroke;
+    }
+
     /**
      * Volviendo publicas las funciones necesarias
      */
@@ -116,7 +140,9 @@ Blueprint = (function(){
             //REVISION DE EVENTO DE POINTERDOWN
             if(window.PointerEvent){
                 canvas.addEventListener("pointerdown", function(event){
-                    alert('pointerdown at '+event.pageX+','+event.pageY);
+                    var newPoint = {x:event.pageX,y:event.pageY};
+                   // console.log(newPoint);
+                    repaint(ID,newPoint);
                 });
             }  
         }
