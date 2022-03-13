@@ -16,6 +16,9 @@ Blueprint = (function(){
     var ID;
     var bps;
     var lastPoint;
+
+    var apiService = apiclient;
+
        /**
      * Funcion callback. Se necesita como parametro para usar las funciones de apimock
      * @param {Array} list 
@@ -65,7 +68,7 @@ Blueprint = (function(){
       * @param {String} author Autor a mostrar sus planos.
       */
     function actualizarPlanos(){
-            apimock.getBlueprintsByAuthor($("#AuthorInput").val(),fun);
+            apiService.getBlueprintsByAuthor($("#AuthorInput").val(),fun);
             bps = blueprints;
             bps2 = bps.map(function(bp){
                 plano = {nombre:bp.name, puntos: bp.points.length};
@@ -96,7 +99,7 @@ Blueprint = (function(){
         canvasM = $("#myCanvas");
         canvas = $("#myCanvas")[0];
         ctx = canvas.getContext("2d");
-        apimock.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
+        apiService.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
         var bps = blueprints;
         ctx.moveTo(bps.points[0]["x"],bps.points[0]["y"]);
         for(let i=1;i<bps.points.length; i++){
@@ -113,7 +116,7 @@ Blueprint = (function(){
      * @param {Array} newPoint 
      */
     function repaint(ID,newPoint){
-        apimock.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
+        apiService.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
         bps= blueprints;
         bps.points.push(newPoint);
         dibujarPlano(bps.name);
