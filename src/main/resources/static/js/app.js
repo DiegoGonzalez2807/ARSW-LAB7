@@ -25,7 +25,6 @@ Blueprint = (function(){
      */
     var fun=function(list){
         blueprints = list;
-       // console.log(blueprints)
     }
 
 
@@ -39,7 +38,6 @@ Blueprint = (function(){
             return plano.puntos;
         })
         points = pointsM.reduce(getSum,0);
-       // console.log(points);
         UserPoints = $("#totalPoints").html(points);
         
     }
@@ -63,13 +61,14 @@ Blueprint = (function(){
      */
      cambiarNombreAutor = function(bluePrint,newAuthor){}
 
+
      /**
       * Funcion generada para actualizar los planos a mostrar segun el autor dado.
       * @param {String} author Autor a mostrar sus planos.
       */
     function actualizarPlanos(){
             apiService.getBlueprintsByAuthor($("#AuthorInput").val(),fun);
-            bps = blueprints;
+            var bps = blueprints;
             bps2 = bps.map(function(bp){
                 plano = {nombre:bp.name, puntos: bp.points.length};
                 return plano;
@@ -100,7 +99,7 @@ Blueprint = (function(){
         canvas = $("#myCanvas")[0];
         ctx = canvas.getContext("2d");
         apiService.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
-        var bps = blueprints;
+        bps = blueprints;
         ctx.moveTo(bps.points[0]["x"],bps.points[0]["y"]);
         for(let i=1;i<bps.points.length; i++){
             ctx.lineTo(bps.points[i]["x"],bps.points[i]["y"]);
@@ -139,7 +138,7 @@ Blueprint = (function(){
                 canvas.addEventListener("pointerdown", function(event){
                     //SE PONE EL 50 EN Y PARA QUE EL PINTADO QUEDE DE ACUERDO A DONDE VAYA
                     //EL MOUSE DEBIDO A QUE HAY UN ESPACIO ENTRE EL PINTADO Y EL MOUSE SI NO SE PONE
-                    var newPoint = {x:event.clientX-rect.left,y:event.clientY-rect.top-50};
+                    var newPoint = {x:event.clientX-rect.left-50,y:event.clientY-rect.top-50};
                     repaint(ID,newPoint);
                 });
             }  

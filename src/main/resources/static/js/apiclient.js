@@ -31,12 +31,14 @@ var apiclient =(function(){
          * @param {Function} callback 
          */
         getBlueprintsByNameAndAuthor: function(authname,bpname,callback){
-            $.ajax({
-                url:url+authname+"/"+bpname,
-                success: function(result){
-                    callback([result]);
+            jQuery.ajax({
+                url: url+authname+"/"+bpname,
+                async: false,
+                success: function(data){
+                    callback(data);
                 }
             })
+            
 
         }
 
