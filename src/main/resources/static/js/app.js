@@ -6,13 +6,17 @@ Blueprint = (function(){
     var AuthorNew;
     var blueprints;
     var UserPoints;
+    var plano;
+    var bps2;
     var planoM;
     var bp; // BluePrint a mostrar, conformado por nombre y número de puntos
     var canvas;
     var canvasM;
     var ctx;
     var ID;
-    /**
+    var bps;
+    var lastPoint;
+       /**
      * Funcion callback. Se necesita como parametro para usar las funciones de apimock
      * @param {Array} list 
      */
@@ -61,23 +65,19 @@ Blueprint = (function(){
       * @param {String} author Autor a mostrar sus planos.
       */
     function actualizarPlanos(){
-            //console.log( $("#AuthorInput").val());
             apimock.getBlueprintsByAuthor($("#AuthorInput").val(),fun);
-            var bps = blueprints;
-            //console.log(bps);
-            var bps2 = bps.map(function(bp){
-                var plano = {nombre:bp.name, puntos: bp.points.length};
+            bps = blueprints;
+            bps2 = bps.map(function(bp){
+                plano = {nombre:bp.name, puntos: bp.points.length};
                 return plano;
             }); 
-            //console.log(bps2);
             planoM = bps2;
             $("table tbody").empty();
-            var BlueprintTable = bps2.map(function(plano){        
-                var columna = "<tr><td align=\"center\" id=\""+plano.nombre+"_\">"+plano.nombre+"</td><td align=\"center\">"+plano.puntos+"</td><td><button onclick=\"Blueprint.dibujarPlano("+plano.nombre+"_)\">Open</button></td></tr>";
+            BlueprintTable = bps2.map(function(plano){        
+                var columna = "<tr><td align=\"center\" id=\""+plano.nombre+"\">"+plano.nombre+"</td><td align=\"center\">"+plano.puntos+"</td><td><button onclick=\"Blueprint.dibujarPlano("+plano.nombre+".id)\">Open</button></td></tr>";
                 $("table tbody").append(columna);
                 return columna;
             });
-            //console.log(BlueprintTable);
             actualizarTotalUPoints();
                 
         }
@@ -90,12 +90,12 @@ Blueprint = (function(){
      * @param {int} id 
      */
     function dibujarPlano(id){
+        canvas.width=canvas.width;
         AuthorNew= $("#AuthorInput").val();
-        ID = id["id"].substring(0,id["id"].length -1)
+        ID = id;
         canvasM = $("#myCanvas");
         canvas = $("#myCanvas")[0];
         ctx = canvas.getContext("2d");
-        canvas.width=canvas.width;
         apimock.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
         var bps = blueprints;
         ctx.moveTo(bps.points[0]["x"],bps.points[0]["y"]);
@@ -105,25 +105,18 @@ Blueprint = (function(){
         ctx.stroke();
     }
 
+    /**
+     * Funcion generada para guardar de manera temporal el nuevo punto que se quiere
+     * unir al plano para asi llamar a la funcion de pintar y hacer la figura con 
+     * el nuevo punto
+     * @param {String} ID 
+     * @param {Array} newPoint 
+     */
     function repaint(ID,newPoint){
-        canvas = $("#myCanvas")[0];
-        ctx = canvas.getContext("2d");
-        //SE PIDE EL PLANO
         apimock.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
-        var bps= blueprints;
-        //EN CASO QUE SEA LA PRIMER VEZ
-        if(lastPoint == null){
-        var lastPoint = bps.points[bps.points.length-1];
-        }
-        console.log("ULTIMOS PUNTOS")
-        console.log(lastPoint["x"]);
-        console.log(lastPoint["y"]);
-        console.log("NUEVOS PUNTOS")
-        console.log(newPoint["x"]);
-        console.log(newPoint["y"]);
-        ctx.moveTo(lastPoint["x"],lastPoint["y"]);
-        ctx.lineTo(newPoint["x"],newPoint["y"]); 
-        ctx.stroke;
+        bps= blueprints;
+        bps.points.push(newPoint);
+        dibujarPlano(bps.name);
     }
 
     /**
@@ -136,12 +129,14 @@ Blueprint = (function(){
             //SE VUELVE A PEDIR LAS VARIABLES DE CANVAS PARA ACTUALIZACION DE EVENTO
             canvas = $("#myCanvas")[0];
             ctx = canvas.getContext("2d");
+            let rect = canvas.getBoundingClientRect();
             console.info("Inicializando elementos...");
             //REVISION DE EVENTO DE POINTERDOWN
             if(window.PointerEvent){
                 canvas.addEventListener("pointerdown", function(event){
-                    var newPoint = {x:event.pageX,y:event.pageY};
-                   // console.log(newPoint);
+                    //SE PONE EL 50 EN Y PARA QUE EL PINTADO QUEDE DE ACUERDO A DONDE VAYA
+                    //EL MOUSE DEBIDO A QUE HAY UN ESPACIO ENTRE EL PINTADO Y EL MOUSE SI NO SE PONE
+                    var newPoint = {x:event.clientX-rect.left,y:event.clientY-rect.top-50};
                     repaint(ID,newPoint);
                 });
             }  
