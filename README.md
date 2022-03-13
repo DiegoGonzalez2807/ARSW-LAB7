@@ -26,7 +26,7 @@ init:function(){
 Primero se crea una función pública donde se pida el canvas (Esto para que se vaya actualizando la información del método a medida que pasan los eventos). Luego de esto se tiene en cuenta el evento pointerEvent, este se activa cuando se pulsa el botón del ratón o en su defecto se toca en una pantalla táctil.
 
 
-### 2. Agregue lo que haga falta en sus módulos para que cuando se capturen nuevos puntos en el canvas abierto (si no se ha seleccionado un canvas NO se debe hacer nada):
+ 2. Agregue lo que haga falta en sus módulos para que cuando se capturen nuevos puntos en el canvas abierto (si no se ha seleccionado un canvas NO se debe hacer nada):
 	1. Se agregue el punto al final de la secuencia de puntos del canvas actual (sólo en la memoria de la aplicación, AÚN NO EN EL API!).
 	2. Se repinte el dibujo.
 
