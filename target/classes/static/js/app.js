@@ -15,8 +15,7 @@ Blueprint = (function(){
     var ctx;
     var ID;
     var bps;
-    var lastPoint;
-
+    
     var apiService = apiclient;
 
        /**
@@ -27,6 +26,20 @@ Blueprint = (function(){
         blueprints = list;
     }
 
+    /**
+     * Funcion generada para eliminar el print que desee el usuario. En este caso
+     * es aquel que este pintado en el canva 
+     * Este tiene que primero borrar el canva 
+     * Luego va a hacer la peticion DELETE hacia el objeto
+     * Se vuelven a pedir los planos
+     */
+    function deletePrint(){
+        //ELIMINACION DE IMAGEN EN CANVA
+        canvas.width = canvas.width;
+        apiService.deletePrint($("#AuthorInput").val(),ID);
+        $("table tbody").remove(); 
+        actualizarPlanos();
+    }
 
     /**
      * Funcion generada para actualizar el puntaje que se muestra en el HTMl de acuerdo
@@ -67,8 +80,9 @@ Blueprint = (function(){
       * @param {String} author Autor a mostrar sus planos.
       */
     function actualizarPlanos(){
+        console.log("ENTRA AL METODO")
             apiService.getBlueprintsByAuthor($("#AuthorInput").val(),fun);
-            var bps = blueprints;
+            bps = blueprints;
             bps2 = bps.map(function(bp){
                 plano = {nombre:bp.name, puntos: bp.points.length};
                 return plano;
@@ -94,12 +108,15 @@ Blueprint = (function(){
     function dibujarPlano(id){
         canvas.width=canvas.width;
         AuthorNew= $("#AuthorInput").val();
-        ID = id;
         canvasM = $("#myCanvas");
         canvas = $("#myCanvas")[0];
         ctx = canvas.getContext("2d");
-        apiService.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
-        bps = blueprints;
+        ID = id;
+        //EN CASO DE SER LA PRIMER VEZ
+        if(bps.length > 1){
+            apiService.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
+            bps = blueprints;
+        }
         ctx.moveTo(bps.points[0]["x"],bps.points[0]["y"]);
         for(let i=1;i<bps.points.length; i++){
             ctx.lineTo(bps.points[i]["x"],bps.points[i]["y"]);
@@ -115,8 +132,6 @@ Blueprint = (function(){
      * @param {Array} newPoint 
      */
     function repaint(ID,newPoint){
-        apiService.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
-        bps= blueprints;
         bps.points.push(newPoint);
         dibujarPlano(bps.name);
     }
@@ -127,6 +142,7 @@ Blueprint = (function(){
     return{
         actualizarPlanos : actualizarPlanos,
         dibujarPlano:dibujarPlano,
+        eliminarPlano:deletePrint,
         init:function(){
             //SE VUELVE A PEDIR LAS VARIABLES DE CANVAS PARA ACTUALIZACION DE EVENTO
             canvas = $("#myCanvas")[0];
@@ -136,9 +152,7 @@ Blueprint = (function(){
             //REVISION DE EVENTO DE POINTERDOWN
             if(window.PointerEvent){
                 canvas.addEventListener("pointerdown", function(event){
-                    //SE PONE EL 50 EN Y PARA QUE EL PINTADO QUEDE DE ACUERDO A DONDE VAYA
-                    //EL MOUSE DEBIDO A QUE HAY UN ESPACIO ENTRE EL PINTADO Y EL MOUSE SI NO SE PONE
-                    var newPoint = {x:event.clientX-rect.left-50,y:event.clientY-rect.top-50};
+                    var newPoint = {x:event.clientX-rect.left, y:event.clientY-rect.top-10};
                     repaint(ID,newPoint);
                 });
             }  
@@ -147,25 +161,6 @@ Blueprint = (function(){
 
 })();
 Blueprint;
-
-
-// $("#GetBlueprintsButton").click(function(){
-//     alert("Entro");
-// });
-
-// $(document).ready(function(){
-//     $("#GetBlueprintsButton").click(function(){
-//         alert("Esta sirviendo");
-//     });
-// });
-
-
-// function funcionPrueba() {
-//     alert("Se supone que ya sirve");
-// };
-
-// getBlueprintsBoton.addEventListener('click',funcionPrueba,true);
-
  
 
     

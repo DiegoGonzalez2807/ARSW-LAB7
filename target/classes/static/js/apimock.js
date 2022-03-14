@@ -25,9 +25,12 @@ apimock=(function(){
 				mockdata[authname].find(function(e){return e.name===bpname})
 			);
 
+		},
+		updateBlueprint:function(list,callback,newPoint,ID){
+			callback(list,newPoint,ID);
 		}
 
-	}	
+	};	
 
 })();
 

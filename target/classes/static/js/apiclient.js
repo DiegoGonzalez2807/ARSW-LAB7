@@ -18,6 +18,8 @@ var apiclient =(function(){
             $.get( url+authname, function( data ) {
                 dataCallBack = data;
               });
+              console.log("DATA DADA EN GET1 DE APICLIENT")
+              console.log(dataCallBack);
             return callback(dataCallBack);
         },
         /**
@@ -33,15 +35,40 @@ var apiclient =(function(){
         getBlueprintsByNameAndAuthor: function(authname,bpname,callback){
             jQuery.ajax({
                 url: url+authname+"/"+bpname,
+                //LA ASINCRONIA SE DESACTIVA DEBIDO A QUE 
+                //PRIMERO COGE TODA LA LISTA, LO CUAL NOS GENERA UN ERROR
                 async: false,
                 success: function(data){
                     callback(data);
+                },
+                contentType: "application/json"
+            })
+        },
+
+        /**
+         * 
+         * @param {*} authname 
+         * @param {*} bpname 
+         * @param {*} callback 
+         */
+        updateBlueprint:function(list,callback,newPoint,ID){
+            $.ajax({
+                url: url+list.author+"/"+list.name,
+                type: 'PUT',
+                success: function(data){
+                    callback(data,newPoint,ID);
                 }
             })
-            
+        },
 
+        deletePrint:function(author,bpname,data){
+            console.log("ENTRA A DELETEPRINT DE APICLIENT")
+            $.ajax({
+                url: url+author+"/"+bpname,
+                type: 'DELETE',
+                data:data,
+                contentType: "application/json"
+            })
         }
-
-
     }
 })();
