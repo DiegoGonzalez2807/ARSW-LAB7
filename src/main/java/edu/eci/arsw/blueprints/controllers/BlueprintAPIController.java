@@ -112,6 +112,21 @@ public class BlueprintAPIController {
         return mensaje;
     }
 
+    @RequestMapping(value = "/blueprints/{author}/{bpname}", method= RequestMethod.DELETE)
+    public ResponseEntity<?> manejadorDeleteRecursoBluePrint(@PathVariable String author, @PathVariable String bpname){
+        ResponseEntity<?> mensaje;
+        try{
+            service.deleteService(author,bpname);
+            mensaje = new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (BlueprintNotFoundException e) {
+            mensaje = new ResponseEntity<>("No exite el plano con el nombre dado",HttpStatus.NOT_FOUND);
+        } catch (BlueprintPersistenceException e) {
+            mensaje = new ResponseEntity<>("No exite el plano con el nombre dado",HttpStatus.BAD_REQUEST);
+        }
+        System.out.println("SE ELIMINO UN BLUEPRINT");
+        return mensaje;
+    }
+
     
     
     

@@ -105,5 +105,9 @@ public class BlueprintsServices {
 
     }
 
+    public void deleteService(String author, String bpname) throws BlueprintNotFoundException, BlueprintPersistenceException {
+        bpp.deleteBlueprint(author,bpname);
+    }
+
     
 }

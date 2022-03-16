@@ -106,4 +106,9 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         if(prints.size() == 0){throw new BlueprintNotFoundException("El author no tiene planos");}
         return prints;
     }
+
+    @Override
+    public void deleteBlueprint(String author, String name) throws BlueprintNotFoundException,BlueprintPersistenceException{
+        blueprints.remove(new Tuple(author,name));
+    }
 }
