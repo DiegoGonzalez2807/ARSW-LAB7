@@ -27,21 +27,6 @@ Blueprint = (function(){
     }
 
     /**
-     * Funcion generada para eliminar el print que desee el usuario. En este caso
-     * es aquel que este pintado en el canva 
-     * Este tiene que primero borrar el canva 
-     * Luego va a hacer la peticion DELETE hacia el objeto
-     * Se vuelven a pedir los planos
-     */
-    function deletePrint(){
-        //ELIMINACION DE IMAGEN EN CANVA
-        canvas.width = canvas.width;
-        apiService.deletePrint($("#AuthorInput").val(),ID);
-        $("table tbody").remove(); 
-        actualizarPlanos();
-    }
-
-    /**
      * Funcion generada para actualizar el puntaje que se muestra en el HTMl de acuerdo
      * a la sumatoria de los puntos de todos los planos del autor
      */
@@ -111,12 +96,11 @@ Blueprint = (function(){
         canvasM = $("#myCanvas");
         canvas = $("#myCanvas")[0];
         ctx = canvas.getContext("2d");
-        ID = id;
-        //EN CASO DE SER LA PRIMER VEZ
-        if(bps.length > 1){
+        if(ID !=id){
+            ID = id;
             apiService.getBlueprintsByNameAndAuthor($("#AuthorInput").val(),ID,fun);
-            bps = blueprints;
         }
+        bps = blueprints;
         ctx.moveTo(bps.points[0]["x"],bps.points[0]["y"]);
         for(let i=1;i<bps.points.length; i++){
             ctx.lineTo(bps.points[i]["x"],bps.points[i]["y"]);
@@ -124,7 +108,7 @@ Blueprint = (function(){
         ctx.stroke();
     }
 
-    /**
+    /** 
      * Funcion generada para guardar de manera temporal el nuevo punto que se quiere
      * unir al plano para asi llamar a la funcion de pintar y hacer la figura con 
      * el nuevo punto
@@ -133,7 +117,31 @@ Blueprint = (function(){
      */
     function repaint(ID,newPoint){
         bps.points.push(newPoint);
+        console.log(bps.points)
         dibujarPlano(bps.name);
+    }
+
+    /**
+     * Funcion generada para eliminar el print que desee el usuario. En este caso
+     * es aquel que este pintado en el canva 
+     * Este tiene que primero borrar el canva 
+     * Luego va a hacer la peticion DELETE hacia el objeto
+     * Se vuelven a pedir los planos
+     */
+     function deletePrint(){
+        //ELIMINACION DE IMAGEN EN CANVA
+        canvas.width = canvas.width;
+        apiService.deletePrint($("#AuthorInput").val(),ID);
+        $("table tbody").remove(); 
+        actualizarPlanos();
+    }
+
+    /**
+     * Funcion generada para salvar la modificacion que se le haya hecho al 
+     * plano de acuerdo con 
+     */
+    function salvarPlano(){
+
     }
 
     /**
@@ -141,6 +149,7 @@ Blueprint = (function(){
      */
     return{
         actualizarPlanos : actualizarPlanos,
+        salvarPlano: salvarPlano,
         dibujarPlano:dibujarPlano,
         eliminarPlano:deletePrint,
         init:function(){
