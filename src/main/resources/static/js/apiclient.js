@@ -51,16 +51,16 @@ var apiclient =(function(){
          * @param {*} bpname 
          * @param {*} callback 
          */
-        updateBlueprint:function(list,callback,newPoint,ID){
+        updateBlueprint:function(list){
             $.ajax({
                 url: url+list.author+"/"+list.name,
                 type: 'PUT',
                 success: function(data){
-                    callback(data,newPoint,ID);
+                    console.log("ENTRA A UPDATE DE APICLIENT")
+                    //callback(data,newPoint,ID);
                 }
             })
         },
-
         deletePrint:function(author,bpname,data){
             console.log("ENTRA A DELETEPRINT DE APICLIENT")
             $.ajax({

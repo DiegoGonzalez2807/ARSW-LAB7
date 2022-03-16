@@ -141,7 +141,7 @@ Blueprint = (function(){
      * plano de acuerdo con 
      */
     function salvarPlano(){
-
+        apiclient.updateBlueprint(bps);
     }
 
     /**
