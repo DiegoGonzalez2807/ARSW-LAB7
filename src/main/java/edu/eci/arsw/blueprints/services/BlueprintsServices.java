@@ -33,7 +33,7 @@ public class BlueprintsServices {
     BlueprintsPersistence bpp;
 
     @Autowired
-    @Qualifier("Sub")
+    @Qualifier("Redundancy")
     filterType filter;
     
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
@@ -103,6 +103,10 @@ public class BlueprintsServices {
         bp.setPoints(points);
         System.out.println("Despues---------------"+bp.toString());
 
+    }
+
+    public void deleteService(String author, String bpname) throws BlueprintNotFoundException, BlueprintPersistenceException {
+        bpp.deleteBlueprint(author,bpname);
     }
 
     
