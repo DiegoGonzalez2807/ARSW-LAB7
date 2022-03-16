@@ -52,16 +52,24 @@ var apiclient =(function(){
          * @param {*} callback 
          * @param {*} points
          */
+<<<<<<< HEAD
         updateBlueprint:function(authname,bpname,points,callback){
+=======
+        updateBlueprint:function(list){
+>>>>>>> 7156f102c46b6103416c86a6ed4d625242f30f4a
             $.ajax({
                 url: url+authname+"/"+bpname,
                 type: 'PUT',
                 success: function(data){
+<<<<<<< HEAD
                     callback(data);
+=======
+                    console.log("ENTRA A UPDATE DE APICLIENT")
+                    //callback(data,newPoint,ID);
+>>>>>>> 7156f102c46b6103416c86a6ed4d625242f30f4a
                 }
             })
         },
-
         deletePrint:function(author,bpname,data){
             console.log("ENTRA A DELETEPRINT DE APICLIENT")
             $.ajax({

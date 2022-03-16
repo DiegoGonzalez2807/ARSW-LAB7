@@ -142,10 +142,14 @@ Blueprint = (function(){
      * plano de acuerdo con 
      */
     function salvarPlano(){
+<<<<<<< HEAD
         console.log($("#AuthorInput").val());
         console.log(ID);
         console.log(JSON.stringify(blueprints.points));
         apiService.updateBlueprint($("#AuthorInput").val(),ID,JSON.stringify(blueprints.points),fun);
+=======
+        apiclient.updateBlueprint(bps);
+>>>>>>> 7156f102c46b6103416c86a6ed4d625242f30f4a
     }
 
     /**
