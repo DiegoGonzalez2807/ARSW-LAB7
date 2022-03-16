@@ -50,13 +50,14 @@ var apiclient =(function(){
          * @param {*} authname 
          * @param {*} bpname 
          * @param {*} callback 
+         * @param {*} points
          */
-        updateBlueprint:function(list,callback,newPoint,ID){
+        updateBlueprint:function(authname,bpname,points,callback){
             $.ajax({
-                url: url+list.author+"/"+list.name,
+                url: url+authname+"/"+bpname,
                 type: 'PUT',
                 success: function(data){
-                    callback(data,newPoint,ID);
+                    callback(data);
                 }
             })
         },

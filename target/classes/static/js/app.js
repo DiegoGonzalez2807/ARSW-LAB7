@@ -13,7 +13,7 @@ Blueprint = (function(){
     var canvas;
     var canvasM;
     var ctx;
-    var ID;
+    var ID; // Name del plano
     var bps;
     
     var apiService = apiclient;
@@ -24,6 +24,7 @@ Blueprint = (function(){
      */
     var fun=function(list){
         blueprints = list;
+        console.log(list);
     }
 
     /**
@@ -141,7 +142,10 @@ Blueprint = (function(){
      * plano de acuerdo con 
      */
     function salvarPlano(){
-
+        console.log($("#AuthorInput").val());
+        console.log(ID);
+        console.log(JSON.stringify(blueprints.points));
+        apiService.updateBlueprint($("#AuthorInput").val(),ID,JSON.stringify(blueprints.points),fun);
     }
 
     /**
