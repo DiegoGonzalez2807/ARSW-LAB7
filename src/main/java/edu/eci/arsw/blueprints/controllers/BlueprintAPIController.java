@@ -100,7 +100,7 @@ public class BlueprintAPIController {
 
     @RequestMapping (value = "/blueprints/{author}/{bpname}", method = RequestMethod.PUT, consumes = "application/json")
     public ResponseEntity<?> manejadorPutRecursoBluePrint(@PathVariable String author, @PathVariable String bpname, @RequestBody List<Point> points){
-        ResponseEntity<?> mensaje;
+        ResponseEntity<?> mensaje = null;
         System.out.println("Entro a actualizar supuestamente");
         try {
             service.updateBluePrint(author,bpname,points);
@@ -108,9 +108,12 @@ public class BlueprintAPIController {
             System.out.println("Cadena de puntos nueva  " +bp.toString());
             mensaje = new ResponseEntity<>(bp,HttpStatus.ACCEPTED);
             System.out.println("Se supone que esta actualizando un blueprint");
-        } catch (BlueprintNotFoundException e) {
+        }catch (BlueprintNotFoundException e) {
             mensaje = new ResponseEntity<>("No exite el plano con el nombre dado",HttpStatus.NOT_FOUND);
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
+        System.out.println("Se supone que se actualizo");
         return mensaje;
     }
 
